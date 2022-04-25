@@ -13,7 +13,7 @@ contract LinearPremiumPriceOracle is StablePriceOracle {
 
     bytes4 constant private TIME_UNTIL_PREMIUM_ID = bytes4(keccak256("timeUntilPremium(uint,uint"));
 
-    constructor(AggregatorInterface _usdOracle, uint[] memory _rentPrices, uint _initialPremium, uint _premiumDecreaseRate) public
+    constructor(AggregatorV3Interface _usdOracle, uint[] memory _rentPrices, uint _initialPremium, uint _premiumDecreaseRate) public
         StablePriceOracle(_usdOracle, _rentPrices)
     {
         initialPremium = _initialPremium;
@@ -46,7 +46,7 @@ contract LinearPremiumPriceOracle is StablePriceOracle {
      * @return The timestamp at which the premium for this domain will be `amount`.
      */
     function timeUntilPremium(uint expires, uint amount) external view returns(uint) {
-        amount = weiToAttoUSD(amount);
+        amount = avaxToAttoUSD(amount);
         require(amount <= initialPremium);
 
         expires = expires.add(GRACE_PERIOD);

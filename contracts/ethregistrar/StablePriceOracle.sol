@@ -4,6 +4,7 @@ import "./PriceOracle.sol";
 import "./SafeMath.sol";
 import "./StringUtils.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 interface AggregatorInterface {
   function latestAnswer() external view returns (int256);
@@ -19,7 +20,7 @@ contract StablePriceOracle is Ownable, PriceOracle {
     uint[] public rentPrices;
 
     // Oracle address
-    AggregatorInterface public usdOracle;
+       AggregatorV3Interface internal usdOracle;
 
     event OracleChanged(address oracle);
 
@@ -28,7 +29,7 @@ contract StablePriceOracle is Ownable, PriceOracle {
     bytes4 constant private INTERFACE_META_ID = bytes4(keccak256("supportsInterface(bytes4)"));
     bytes4 constant private ORACLE_ID = bytes4(keccak256("price(string,uint256,uint256)") ^ keccak256("premium(string,uint256,uint256)"));
 
-    constructor(AggregatorInterface _usdOracle, uint[] memory _rentPrices) public {
+        constructor(AggregatorV3Interface _usdOracle, uint[] memory _rentPrices) {
         usdOracle = _usdOracle;
         setPrices(_rentPrices);
     }
@@ -43,7 +44,7 @@ contract StablePriceOracle is Ownable, PriceOracle {
         uint basePrice = rentPrices[len - 1].mul(duration);
         basePrice = basePrice.add(_premium(name, expires, duration));
 
-        return attoUSDToWei(basePrice);
+        return attoUSDToAvax(basePrice);
     }
 
     /**
@@ -63,7 +64,7 @@ contract StablePriceOracle is Ownable, PriceOracle {
      * @dev Sets the price oracle address
      * @param _usdOracle The address of the price oracle to use.
      */
-    function setOracle(AggregatorInterface _usdOracle) public onlyOwner {
+    function setOracle(AggregatorV3Interface _usdOracle) public onlyOwner {
         usdOracle = _usdOracle;
         emit OracleChanged(address(_usdOracle));
     }
@@ -72,7 +73,7 @@ contract StablePriceOracle is Ownable, PriceOracle {
      * @dev Returns the pricing premium in wei.
      */
     function premium(string calldata name, uint expires, uint duration) external view returns(uint) {
-        return attoUSDToWei(_premium(name, expires, duration));
+        return attoUSDToAvax(_premium(name, expires, duration));
     }
 
     /**
@@ -82,14 +83,26 @@ contract StablePriceOracle is Ownable, PriceOracle {
         return 0;
     }
 
-    function attoUSDToWei(uint amount) internal view returns(uint) {
-        uint ethPrice = uint(usdOracle.latestAnswer());
-        return amount.mul(1e8).div(ethPrice);
+    function attoUSDToAvax(uint amount) public view returns(uint) {
+        (
+            /*uint80 roundID*/,
+            int avaxPrice,
+            /*uint startedAt*/,
+            /*uint timeStamp*/,
+            /*uint80 answeredInRound*/
+        ) = usdOracle.latestRoundData();
+        return amount.mul(1e8).div(uint256(avaxPrice));
     }
 
-    function weiToAttoUSD(uint amount) internal view returns(uint) {
-        uint ethPrice = uint(usdOracle.latestAnswer());
-        return amount.mul(ethPrice).div(1e8);
+    function avaxToAttoUSD(uint amount) public view returns(uint) {
+        (
+            /*uint80 roundID*/,
+            int avaxPrice,
+            /*uint startedAt*/,
+            /*uint timeStamp*/,
+            /*uint80 answeredInRound*/
+        ) = usdOracle.latestRoundData();
+        return amount.mul(uint256(avaxPrice)).div(1e8);
     }
 
     function supportsInterface(bytes4 interfaceID) public view virtual returns (bool) {

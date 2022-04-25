@@ -3,7 +3,8 @@
   "version": "0.0.7",
   "description": "ENS contracts",
   "scripts": {
-    "test": "npx hardhat test",
+    "test": "npx hardhat test --network fuji --grep 'StablePriceOracle'",
+    "verify": "npx hardhat verify --constructor-args arguments.js 0xdC0A84E0cC733C06CE408F4B9e4f8b10C9bF4D54 --network avalancheFujiTestnet",
     "lint": "npx hardhat check",
     "build": "npx hardhat compile",
     "prepublishOnly": "yarn build",
