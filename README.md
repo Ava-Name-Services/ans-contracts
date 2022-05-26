@@ -1,7 +1,7 @@
 # ANS forked from ENS.
-The Avalanche Name Service (ANS) is a distributed, open, and extensible naming system based on the Avalanche blockchain.
+The Ava Name Service (ANS) is a distributed, open, and extensible naming system based on the Avalanche blockchain.
 
-ANS’s job is to map human-readable names like ‘alice.ava’ to machine-readable identifiers such as Avalanche C Chain addresses, other cryptocurrency addresses, content hashes, and metadata. ANS also supports ‘reverse resolution’, making it possible to associate metadata such as canonical names or interface descriptions with Ethereum addresses.
+ANS’s job is to map human-readable names like ‘dev.ava’ to machine-readable identifiers such as Avalanche C Chain addresses, other cryptocurrency addresses, content hashes, and metadata. ANS also supports ‘reverse resolution’, making it possible to associate metadata such as canonical names or interface descriptions with Ethereum addresses.
 
 ANS has similar goals to DNS, the Internet’s Domain Name Service, but has significantly different architecture due to the capabilities and constraints provided by the Avalanche blockchain. Like DNS, ANS operates on a system of dot-separated hierarchical names called domains, with the owner of a domain having full control over subdomains.
 
@@ -93,7 +93,7 @@ Implementation of the `.test` registrar facilitates easy testing of ENS on the E
 
 ## EthRegistrar
 
-Implements an [ENS](https://ens.domains/) registrar intended for the .eth TLD.
+Implements an [ENS](https://ens.domains/) registrar intended for the .ava TLD.
 
 These contracts were audited by ConsenSys dilligence; the audit report is available [here](https://github.com/ConsenSys/ens-audit-report-2019-02).
 
@@ -154,7 +154,7 @@ PublicResolver includes the following profiles that implements different EIPs.
 
 Clone the repository:
 ```
-git clone https://github.com/muellners/ans-contracts
+git clone https://github.com/Ava-Name-Services/ans-contracts.git
 ```
 
 Go inside the repo and checkout branch `work-branch`:
