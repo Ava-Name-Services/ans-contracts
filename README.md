@@ -1,8 +1,11 @@
-# ENS
+# ANS forked from ENS.
+The Avalanche Name Service (ANS) is a distributed, open, and extensible naming system based on the Avalanche blockchain.
 
-[![Build Status](https://travis-ci.org/ensdomains/ens-contracts.svg?branch=master)](https://travis-ci.org/ensdomains/ens-contracts)
+ANS’s job is to map human-readable names like ‘alice.ava’ to machine-readable identifiers such as Avalanche C Chain addresses, other cryptocurrency addresses, content hashes, and metadata. ANS also supports ‘reverse resolution’, making it possible to associate metadata such as canonical names or interface descriptions with Ethereum addresses.
 
-For documentation of the ENS system, see [docs.ens.domains](https://docs.ens.domains/).
+ANS has similar goals to DNS, the Internet’s Domain Name Service, but has significantly different architecture due to the capabilities and constraints provided by the Avalanche blockchain. Like DNS, ANS operates on a system of dot-separated hierarchical names called domains, with the owner of a domain having full control over subdomains.
+
+Top-level domains, like ‘.ava’, are owned by smart contracts called registrars, which specify rules governing the allocation of their subdomains. Anyone may, by following the rules imposed by these registrar contracts, obtain ownership of a domain for their own use. ANS also supports importing in DNS names already owned by the user for use on ANS.
 
 ## npm package
 
@@ -25,7 +28,7 @@ import {
   ReverseRegistrar,
   StablePriceOracle,
   TestRegistrar
-} from '@ensdomains/ens-contracts'
+} from '@ensdomains/ans-contracts'
 ```
 
 ## Importing from solidity
@@ -64,7 +67,7 @@ The ENS registry is the core contract that lies at the heart of ENS resolution. 
 
 ### ENS.sol
 
-Interface of the ENS Registry.
+Interface of the ANS Registry.
 
 ### ENSRegistry
 
@@ -149,16 +152,31 @@ PublicResolver includes the following profiles that implements different EIPs.
 
 ### How to setup
 
+Clone the repository:
 ```
-git clone https://github.com/ensdomains/ens-contracts
-cd ens-contracts
+git clone https://github.com/muellners/ans-contracts
+```
+
+Go inside the repo and checkout branch `work-branch`:
+```
+cd ans-contracts;
+git checkout work-branch;
+```
+
+Install the dependencies:
+```
 yarn
+```
+
+### Deploy on fuji testnet
+```
+npx hardhat deploy --network fuji
 ```
 
 ### How to run tests
 
 ```
-yarn test
+yarn test --network fuji
 ```
 
 ### How to publish
