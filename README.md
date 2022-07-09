@@ -71,11 +71,11 @@ Interface of the ANS Registry.
 
 ### ENSRegistry
 
-Implementation of the ENS Registry, the central contract used to look up resolvers and owners for domains.
+Implementation of the ANS Registry, the central contract used to look up resolvers and owners for domains.
 
 ### ENSRegistryWithFallback
 
-The new impelmentation of the ENS Registry after [the 2020 ENS Registry Migration](https://docs.ens.domains/ens-migration-february-2020/technical-description#new-ens-deployment).
+The new impelmentation of the ANS Registry after [the 2020 ENS Registry Migration](https://docs.ens.domains/ens-migration-february-2020/technical-description#new-ens-deployment).
 
 ### FIFSRegistrar
 
@@ -93,18 +93,18 @@ Implementation of the `.test` registrar facilitates easy testing of ENS on the E
 
 ## EthRegistrar
 
-Implements an [ENS](https://ens.domains/) registrar intended for the .ava TLD.
+Implements an [ANS](https://ans.surge.sh/) registrar intended for the .ava TLD.
 
 These contracts were audited by ConsenSys dilligence; the audit report is available [here](https://github.com/ConsenSys/ens-audit-report-2019-02).
 
 ### BaseRegistrar
 
-BaseRegistrar is the contract that owns the TLD in the ENS registry. This contract implements a minimal set of functionality:
+BaseRegistrar is the contract that owns the TLD in the ANS registry. This contract implements a minimal set of functionality:
 
  - The owner of the registrar may add and remove controllers.
  - Controllers may register new domains and extend the expiry of (renew) existing domains. They can not change the ownership or reduce the expiration time of existing domains.
  - Name owners may transfer ownership to another address.
- - Name owners may reclaim ownership in the ENS registry if they have lost it.
+ - Name owners may reclaim ownership in the ANS registry if they have lost it.
  - Owners of names in the interim registrar may transfer them to the new registrar, during the 1 year transition period. When they do so, their deposit is returned to them in its entirety.
 
 This separation of concerns provides name owners strong guarantees over continued ownership of their existing names, while still permitting innovation and change in the way names are registered and renewed via the controller mechanism.
@@ -135,7 +135,7 @@ StablePriceOracle is a price oracle implementation that allows the contract owne
 
 ## Resolvers
 
-Resolver implements a general-purpose ENS resolver that is suitable for most standard ENS use-cases. The public resolver permits updates to ENS records by the owner of the corresponding name.
+Resolver implements a general-purpose ANS resolver that is suitable for most standard ANS use-cases. The public resolver permits updates to ANS records by the owner of the corresponding name.
 
 PublicResolver includes the following profiles that implements different EIPs.
 
@@ -146,7 +146,7 @@ PublicResolver includes the following profiles that implements different EIPs.
 - NameResolver = EIP 181 - Reverse resolution (`name()`).
 - PubkeyResolver = EIP 619 - SECP256k1 public keys (`pubkey()`).
 - TextResolver = EIP 634 - Text records (`text()`).
-- DNSResolver = Experimental support is available for hosting DNS domains on the Ethereum blockchain via ENS. [The more detail](https://veox-ens.readthedocs.io/en/latest/dns.html) is on the old ENS doc.
+- DNSResolver = Experimental support is available for hosting DNS domains on the Ethereum blockchain via ANS. [The more detail](https://veox-ens.readthedocs.io/en/latest/dns.html) is on the old ANS doc.
 
 ## Developer guide
 
